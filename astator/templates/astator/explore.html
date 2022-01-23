@@ -1,0 +1,88 @@
+{% extends 'astator/layout.html' %}
+
+{% block main %}
+    <br><h1>Explore</h1><br><hr>
+
+    <div class="grid-container">
+        
+        <div class="col-3">
+            <!--Page for exploring all the scripts - this first part is for listed total content-->
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center" style="padding-left: 3px;">
+                    <h5>Browse by category:</h5>
+                </li>
+                {% for k, v in cat.items %}
+                <a class="explore_link" href="{% url 'browse' k %}"><li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ k }} 
+                    <span class="badge bg-danger rounded-pill">{{ v }}</span>
+                </li></a>
+                {% endfor %}
+                
+                <li class="list-group-item d-flex justify-content-between align-items-center" style="padding-left: 3px;">
+                    <h5>Browse by type:</h5>
+                </li>
+                {% for k, v in typ.items %}
+                <a class="explore_link" href="{% url 'browse' k %}"><li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ k }} 
+                    <span class="badge bg-danger rounded-pill">{{ v }}</span>
+                </li></a>
+                {% endfor %}
+                
+            </ul>
+        </div>
+
+        <div class="col-9">
+            <!--The second part checks if there is a block browse (or message), and if not, shows default view - all the scripts-->
+            {% block browse %}
+                {% if message %}
+                    <p style="padding: 20px;">{{ message }}</p>
+                {% endif %}
+            <h3 style="text-align: center;">All Scripts</h3><br>
+            <div id="RLSContainer_explore">
+                {% for script in page_obj %}
+                    <div class="mp_script_container RLDiv">
+                        <div class="mp_script_img">
+                            <img src="{{ script.cover.url }}" class="img-thumbnail" alt="cover photo">
+                        </div>
+                        <div class="mp_script_text">
+                            <h5><a class="mp_script_text_link" href="{% url 'script' script.id %}">{{ script.title }}</a></h5>
+                            <small>by: <a class="mp_script_text_link" href="{% url 'users' script.user.username %}">{{ script.user.name }}</a></small><br>
+                            <small>Type: {{ script.script_type }}</small><br>   
+                            <small>Category: {{ script.category }}</small><br>
+                            <p style="margin-top:5px;">{{ script.summary|truncatechars:150 }}</p>
+                            <a href="{% url 'read' script.id %}"><button class="btn btn-sm btn-danger" style="margin: 2px;">Read</button></a>
+                            <a href="{% url 'script' script.id %}"><button class="btn btn-sm btn-outline-secondary" style="margin: 2px;">Info</button></a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% endblock %}
+
+            <!--Pagination-->
+            <div>
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                    {% else %}
+                        <li class="page-item disabled"><a class="page-link" href="#">&laquo; First</a></li>
+                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                    {% endif %}
+            
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</a>
+                    </li>
+            
+                    {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
+                    {% else %}
+                        <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                        <li class="page-item disabled"><a class="page-link" href="#">Last &raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

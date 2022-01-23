@@ -1,0 +1,39 @@
+{% extends 'astator/layout.html' %}
+
+{% block main %}
+    <!--Default hero and login form-->
+    <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+        <div class="row align-items-center g-lg-5 py-5">
+            <div class="col-lg-7 text-center text-lg-start">
+                <h1 class="display-4 fw-bold lh-1 mb-3">Welcome to ASTATOR</h1>
+                <p class="col-lg-10 fs-4">Astator is a small, members-only, web app built around the needs of authors 
+                    and aspiring authors. It enables them to share their work with other people and get first-hand 
+                    impressions, suggestions, and comments before getting their work published. On Astator, authors 
+                    can share their concepts (initial ideas with the overall plot and story characters), short 
+                    stories, and drafts of their novels, screenplays, etc. Readers can read everything on the Astator for free.</p>
+            </div>
+            <div class="col-md-10 mx-auto col-lg-5">
+                {% if message %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endif %}
+                <form class="p-4 p-md-5 border rounded-3 bg-light" action="{% url 'login' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-floating mb-3">
+                        <input type="text" autofocus autocomplete="off" class="form-control" id="floatingInput" name="username" placeholder="Username">
+                        <label for="floatingInput">Username</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" autocomplete="off" class="form-control" id="floatingPassword" name=password placeholder="Password">
+                        <label for="floatingPassword">Password</label>
+                    </div>
+                    <small class="text-muted"><a href="{% url 'password_reset' %}">Forgot Your Password?</a></small><br>
+                    <br><button class="w-100 btn btn-lg btn-danger" type="submit">Log in</button>
+                    <hr class="my-4">
+                    <small class="text-muted">Not a member yet? <a href="{% url 'register' %}">Register</a>.</small>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

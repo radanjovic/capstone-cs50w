@@ -1,0 +1,70 @@
+{% extends 'astator/layout.html' %}
+
+{% block main %}
+
+<!--Default index page-->
+
+<div class="container my-5">
+    <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
+      <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
+        <h1 class="display-4 fw-bold lh-1">Welcome to Astator</h1>
+        <p class="lead"><strong>Here as an author? </strong>You're at the right place. Astator is a small web app built around the needs of authors and aspiring authors. It enables you to share your work with other people and get first-hand impressions, suggestions, and comments before your work gets published. On Astator, you can share your concepts (initial ideas with the overall plot and story characters), short stories, and drafts of your novels/scripts. Click on the button bellow to add your new script. Or go to your profile and make sure it stands out!</p>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+            <a href="{% url 'create' %}"><button type="button" class="btn btn-danger btn-lg px-4 me-md-2 fw-bold">+ Add New Script</button></a>
+            <a href="{% url 'myprofile' %}"><button type="button" class="btn btn-outline-danger btn-lg px-4">My Profile</button></a>
+        </div>
+      </div>
+      <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg">
+          <img class="rounded-lg-3" src="/media/blog/blog_pic2.jpg" alt="" width="680">
+      </div>
+    </div>
+  </div>
+
+  <div class="b-example-divider"></div>
+
+  <div class="container px-4 py-5" id="hanging-icons">
+    <h2 class="pb-2 border-bottom">Here to read?</h2>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+      <div class="col d-flex align-items-start">
+        <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+          <svg class="bi" width="1em" height="1em"><use xlink:href="#toggles2"/></svg>
+        </div>
+        <div>
+          <h2>Scripts</h2>
+          <p>Want to read some concepts, short stories, or even novels before they're published? Visit our explore page and find your next great read!</p>
+          <a href="{% url 'explore' %}" class="btn btn-danger">
+            Explore
+          </a>
+        </div>
+      </div>
+      <div class="col d-flex align-items-start">
+        <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+          <svg class="bi" width="1em" height="1em"><use xlink:href="#cpu-fill"/></svg>
+        </div>
+        <div>
+          <h2>Authors</h2>
+          <p>Are you looking for the next Stephen King among the aspiring authors? A good place to start is our WriterHub. Browse all our writers there!</p>
+          <a href="{% url 'writerhub' %}" class="btn btn-danger">
+            WriterHub
+          </a>
+        </div>
+      </div>
+      <div class="col d-flex align-items-start">
+        <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+          <svg class="bi" width="1em" height="1em"><use xlink:href="#tools"/></svg>
+        </div>
+        <div>
+          <h2>Blog</h2>
+          <p>Looking to get some insights into how Astator works, and/or how to improve your writing? Look no further, because Astator Blog has all the answers!</p>
+          <a href="{% url 'blog' %}" class="btn btn-danger">
+            Blog
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="b-example-divider"></div>
+
+
+{% endblock %}

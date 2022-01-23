@@ -1,0 +1,24 @@
+{% extends 'astator/explore.html' %}
+
+{% block browse %}
+    <!--Page for browsing the specified category or type-->
+    <h3 style="text-align: center;">{{ query }} Scripts</h3>
+    <div id="RLSContainer_browse">
+    {% for script in page_obj %}
+        <div class="mp_script_container RLDiv">
+            <div class="mp_script_img">
+                <img src="{{ script.cover.url }}" class="img-thumbnail" alt="cover photo">
+            </div>
+            <div class="mp_script_text">
+                <h5><a class="mp_script_text_link" href="{% url 'script' script.id %}">{{ script.title }}</a></h5>
+                <small>by: <a class="mp_script_text_link" href="{% url 'users' script.user.username %}">{{ script.user.name }}</a></small><br>
+                <small>Type: {{ script.script_type }}</small><br>   
+                <small>Category: {{ script.category }}</small><br>
+                <p style="margin-top:5px;">{{ script.summary|truncatechars:150 }}</p>
+                <a href="{% url 'read' script.id %}"><button class="btn btn-sm btn-danger" style="margin: 2px;">Read</button></a>
+                <a href="{% url 'script' script.id %}"><button class="btn btn-sm btn-outline-secondary" style="margin: 2px;">Info</button></a>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

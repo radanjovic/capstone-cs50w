@@ -1,0 +1,103 @@
+{% extends 'astator/layout.html' %}
+
+{% block main %}
+    <!--Registration form - for registering users.-->
+    <br>
+    <div class="registration_form">
+        <h3 style="text-align: center;">Register with ASTATOR</h3><br>
+
+        <form action="{% url 'register' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if message %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+            <div class="mb-3">
+                <label for="username" class="form-label">Username:</label>
+                {{ form.username }}
+                <div id="usernameHelp" class="form-text">Username is used to distinguish one user from another. Username must be unique and 150 characters or fewer. Letters, digits and @/./+/-/_ only. Choose your username carefully, you can't change it after.</div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email Address:</label>
+                {{ form.email }}
+                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            <div class="mb-3">
+                <label for="password1" class="form-label">Password:</label>
+                {{ form.password1 }}
+                <div id="password1Help" class="form-text">Strong password helps protect your account. 
+                    <ul>
+                        <li>Your password can't be too similar to your other personal information (your username, for example).</li>
+                        <li>Your password must contain at least 8 characters.</li>
+                        <li>Your password can't be a commonly used password.</li>
+                        <li>Your password can't be entirely numeric.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="password2" class="form-label">Repeat Password:</label>
+                {{ form.password2 }}
+                <div id="password2Help" class="form-text">Re-enter your password carefully. Passwords must match.</div>
+            </div>
+            <div class="mb-3">
+                <label for="first_name" class="form-label">First Name:</label>
+                {{ form.first_name }}
+            </div>
+            <div class="mb-3">
+                <label for="last_name" class="form-label">Last Name:</label>
+                {{ form.last_name }}
+                <div id="nameHelp" class="form-text">If you're using a pen name, you can put your pen name as your first and last name.</div>
+            </div>
+            <div class="mb-3">
+                <label for="bio" class="form-label">Biography:</label>
+                {{ form.bio }}
+                <div id="bioHelp" class="form-text">Tell us and other users a little bit about yourself. This field is <strong>optional.</strong></div>
+            </div>
+            <div class="mb-3">
+                <label for="photo" class="form-label">Upload Your Profile Photo:</label>
+                {{ form.photo }}
+                <div id="photoHelp" class="form-text">Choose an image (.jpg, .png, ...) file. This field is <strong>optional.</strong></div>
+            </div>
+            <div class="mb-3">
+                <label for="amazon" class="form-label">Amazon Author's Page:</label>
+                {{ form.amazon }}
+                <div id="amazonHelp" class="form-text">Enter URL for your Amazon Author's Page, if you have one. This field is <strong>optional.</strong></div>
+            </div>
+            <div class="mb-3">
+                <label for="twitter" class="form-label">Twitter:</label>
+                {{ form.twitter }}
+                <div id="twitterHelp" class="form-text">Enter URL for your Twitter account, if you have one. This field is <strong>optional.</strong></div>
+            </div>
+            <div class="mb-3">
+                <label for="facebook" class="form-label">Facebook:</label>
+                {{ form.facebook }}
+                <div id="facebookHelp" class="form-text">Enter URL for your Facebook account, if you have one. This field is <strong>optional.</strong></div>
+            </div>
+            <div class="mb-3">
+                <label for="instagram" class="form-label">Instagram:</label>
+                {{ form.instagram }}
+                <div id="instagramHelp" class="form-text">Enter URL for your Instagram account, if you have one. This field is <strong>optional.</strong></div>
+            </div>
+            <div class="mb-3">
+                <label for="youtube" class="form-label">YouTube:</label>
+                {{ form.youtube }}
+                <div id="youtubeHelp" class="form-text">Enter URL for your YouTube channel, if you have one. This field is <strong>optional.</strong></div>
+            </div>
+            <!--Agreeing to terms and conditions is also just a preview (demo) and is, therefore, here only displayed, but the choice is not saved in DB,
+            nor will anything happen if user deselects this input after tempering with console.-->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="flexCheckCheckedDisabled" checked disabled>
+                <label class="form-check-label" for="flexCheckCheckedDisabled">
+                  I agree to Astator's <strong><a style="mute" href="{% url 'terms' %}">Terms and Conditions</a></strong>.
+                </label>
+              </div><br>
+            <div class="registration_form_button">
+                <button class="w-100 btn btn-lg btn-danger" type="submit">Register</button>
+            </div>
+            <hr class="my-4">
+            <small class="text-muted">Already a member? <a href="{% url 'login' %}">Log in</a>.</small>
+        </form><br>
+    </div>
+    <br>
+{% endblock %}

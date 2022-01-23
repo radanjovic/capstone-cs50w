@@ -1,0 +1,23 @@
+<!--Displaying dynamic view - search results or all writers, if nothing is typed in.-->
+<div class="row row-cols-1 row-cols-md-3 g-4">
+{% if writers %}
+        {% for writer in writers %}
+        <div class="col">
+            <div class="card text-center h-100">
+                <img src="{{ writer.photo.url }}" class="card-img-top" alt="writer photo">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ writer.name }}</h5>
+                {% if writer.bio %}
+                    <p class="card-text">{{ writer.bio|truncatechars:115 }}</p>
+                {% else %}
+                    <p class="card-text">Click on the View Writer's Page button to learn more about this author and scripts he decided to share on Astator.</p>
+                {% endif %}
+                    <a href="{% url 'users' writer.username %}" class="align-self-end btn btn-danger" style="margin: auto; margin-bottom: 1px;">View Writer's Page</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+{% else %}
+    <p>No writers found.</p>
+{% endif %}
+</div>

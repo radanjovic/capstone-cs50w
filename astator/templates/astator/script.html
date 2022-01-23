@@ -1,0 +1,417 @@
+{% extends 'astator/layout.html' %}
+
+{% block main %}
+<!--Template for displaying script contents-->
+<br>
+<div class="grid-container">
+    <div class="col-4 grid_profile">
+        <!--First part is meant for main info about the scripts-->
+        <h3 style="text-align: center;">{{ script.title }}</h3>
+        <img src="{{ script.cover.url }}" class="img-thumbnail" alt="profile photo of user"><br><br>
+        <p><strong>by: <a class="mp_script_text_link" href="{% url 'users' script.user.username %}">{{ script.user.name }}</a></strong></p>
+        <h6>Type: {{ script.script_type }}</h6>
+        <h6>Category: {{ script.category }}</h6>
+        <h6>Total readers: {{ readers }}</h6><br>
+        <div>
+            <a href="{% url 'read' script.id %}"><button class="btn btn-danger" style="margin: 2px;">Read</button></a>
+            {% if script.user == request.user %}
+              <a href="{% url 'delete' script.id %}"><button class="btn btn-outline-dark" style="margin: 2px;">Delete</button></a>
+            {% else %}
+                {% if added_to_rl %}
+                    <form method="post" action="{% url 'script' script.id %}">
+                      {% csrf_token %}
+                      <input class="btn btn-outline-danger" type="submit" name="remove_from_rl" value="Remove From Read Later" style="margin: 2px;">
+                    </form>
+                {% else %}
+                    <form method="post" action="{% url 'script' script.id %}">
+                      {% csrf_token %}
+                      <input class="btn btn-outline-danger" type="submit" name="add_to_rl" value="Add to Read Later" style="margin: 2px;">
+                    </form>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-8 grid_content">
+        <!--Second part is meant for displaying ratings, suggestions and comments of the scripts,
+        along with the forms for submiting these. The rest of the page is populated by script
+        summary and author's bio, if there is one.-->
+        <div style="margin: 0 5px;">
+            <strong>About: </strong>
+            <p class="bio_about"> {{ script.summary }}</p>
+        </div><br>
+
+        <div id="ratingDiv">
+            <strong>Ratings:</strong>
+            {% if num != 0 %}
+            <!--Displaying current ratings, only if there are some, and separately
+            for storyline, characters and writing.-->
+            <div class="ratings_container">
+                <div class="ratings_child" id="storyline_rating">
+                    <span class="rating_type">Storyline Rating</span><br>
+                    <span class="fa fa-star checked"></span>
+                    <span id="sl2" class="fa fa-star"></span>
+                    <span id="sl3" class="fa fa-star"></span>
+                    <span id="sl4" class="fa fa-star"></span>
+                    <span id="sl5" class="fa fa-star"></span>
+                    <input type="hidden" id="sl_avg_r" value="{{ sl_avg }}">
+                    <p>{{ sl_avg }} average based on {{ num }} reviews.</p>
+                    <div class="row">
+                        <div class="side">
+                          <div>5:</div>
+                        </div>
+                        <div class="middle">
+                          <div class="bar-container">
+                            <div class="bar-5" style="width: {{ sl_five_perc }}%"></div>
+                          </div>
+                        </div>
+                        <div class="side right">
+                          <div>{{ sl_five }}</div>
+                        </div>
+                        <div class="side">
+                          <div>4:</div>
+                        </div>
+                        <div class="middle">
+                          <div class="bar-container">
+                            <div class="bar-4" style="width: {{ sl_four_perc }}%"></div>
+                          </div>
+                        </div>
+                        <div class="side right">
+                          <div>{{ sl_four }}</div>
+                        </div>
+                        <div class="side">
+                          <div>3:</div>
+                        </div>
+                        <div class="middle">
+                          <div class="bar-container">
+                            <div class="bar-3" style="width: {{ sl_three_perc }}%"></div>
+                          </div>
+                        </div>
+                        <div class="side right">
+                          <div>{{ sl_three }}</div>
+                        </div>
+                        <div class="side">
+                          <div>2:</div>
+                        </div>
+                        <div class="middle">
+                          <div class="bar-container">
+                            <div class="bar-2" style="width: {{ sl_two_perc }}%"></div>
+                          </div>
+                        </div>
+                        <div class="side right">
+                          <div>{{ sl_two }}</div>
+                        </div>
+                        <div class="side">
+                          <div>1:</div>
+                        </div>
+                        <div class="middle">
+                          <div class="bar-container">
+                            <div class="bar-1" style="width: {{ sl_one_perc }}%"></div>
+                          </div>
+                        </div>
+                        <div class="side right">
+                          <div>{{ sl_one }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ratings_child" id="characters_rating">
+                    <span class="rating_type">Characters Rating</span><br>
+                    <span class="fa fa-star checked"></span>
+                    <span id="ch2" class="fa fa-star"></span>
+                    <span id="ch3" class="fa fa-star"></span>
+                    <span id="ch4" class="fa fa-star"></span>
+                    <span id="ch5" class="fa fa-star"></span>
+                    <input type="hidden" id="ch_avg_r" value="{{ ch_avg }}">
+                    <p>{{ ch_avg }} average based on {{ num }} reviews.</p>
+                    <div class="row">
+                        <div class="side">
+                          <div>5:</div>
+                        </div>
+                        <div class="middle">
+                          <div class="bar-container">
+                            <div class="bar-5" style="width: {{ ch_five_perc }}%"></div>
+                          </div>
+                        </div>
+                        <div class="side right">
+                          <div>{{ ch_five }}</div>
+                        </div>
+                        <div class="side">
+                          <div>4:</div>
+                        </div>
+                        <div class="middle">
+                          <div class="bar-container">
+                            <div class="bar-4" style="width: {{ ch_four_perc }}%"></div>
+                          </div>
+                        </div>
+                        <div class="side right">
+                          <div>{{ ch_four }}</div>
+                        </div>
+                        <div class="side">
+                          <div>3:</div>
+                        </div>
+                        <div class="middle">
+                          <div class="bar-container">
+                            <div class="bar-3" style="width: {{ ch_three_perc }}%"></div>
+                          </div>
+                        </div>
+                        <div class="side right">
+                          <div>{{ ch_three }}</div>
+                        </div>
+                        <div class="side">
+                          <div>2:</div>
+                        </div>
+                        <div class="middle">
+                          <div class="bar-container">
+                            <div class="bar-2" style="width: {{ ch_two_perc }}%"></div>
+                          </div>
+                        </div>
+                        <div class="side right">
+                          <div>{{ ch_two }}</div>
+                        </div>
+                        <div class="side">
+                          <div>1:</div>
+                        </div>
+                        <div class="middle">
+                          <div class="bar-container">
+                            <div class="bar-1" style="width: {{ ch_one_perc }}%"></div>
+                          </div>
+                        </div>
+                        <div class="side right">
+                          <div>{{ ch_one }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ratings_child" id ="writing_rating">
+                    <span class="rating_type">Writing Rating</span><br>
+                    <span class="fa fa-star checked"></span>
+                    <span id="wr2" class="fa fa-star"></span>
+                    <span id="wr3" class="fa fa-star"></span>
+                    <span id="wr4" class="fa fa-star"></span>
+                    <span id="wr5" class="fa fa-star"></span>
+                    <input type="hidden" id="wr_avg_r" value="{{ wr_avg }}">
+                    <p>{{ wr_avg }} average based on {{ num }} reviews.</p>
+                    <div class="row">
+                        <div class="side">
+                          <div>5:</span></div>
+                        </div>
+                        <div class="middle">
+                          <div class="bar-container">
+                            <div class="bar-5" style="width: {{ wr_five_perc }}%"></div>
+                          </div>
+                        </div>
+                        <div class="side right">
+                          <div>{{ wr_five }}</div>
+                        </div>
+                        <div class="side">
+                          <div>4:</div>
+                        </div>
+                        <div class="middle">
+                          <div class="bar-container">
+                            <div class="bar-4" style="width: {{ wr_four_perc }}%"></div>
+                          </div>
+                        </div>
+                        <div class="side right">
+                          <div>{{ wr_four }}</div>
+                        </div>
+                        <div class="side">
+                          <div>3:</div>
+                        </div>
+                        <div class="middle">
+                          <div class="bar-container">
+                            <div class="bar-3" style="width: {{ wr_three_perc }}%"></div>
+                          </div>
+                        </div>
+                        <div class="side right">
+                          <div>{{ wr_three }}</div>
+                        </div>
+                        <div class="side">
+                          <div>2:</div>
+                        </div>
+                        <div class="middle">
+                          <div class="bar-container">
+                            <div class="bar-2" style="width: {{ wr_two_perc }}%"></div>
+                          </div>
+                        </div>
+                        <div class="side right">
+                          <div>{{ wr_two }}</div>
+                        </div>
+                        <div class="side">
+                          <div>1:</div>
+                        </div>
+                        <div class="middle">
+                          <div class="bar-container">
+                            <div class="bar-1" style="width: {{ wr_one_perc }}%"></div>
+                          </div>
+                        </div>
+                        <div class="side right">
+                          <div>{{ wr_one }}</div>
+                        </div>
+                    </div>
+                </div>
+
+            {% else %}
+                <div>No ratings yet. 
+                    {% if request.user != script.user %}
+                        Be the first one to rate this script.
+                    {% endif %}
+                </div>
+            {% endif %}
+            </div><br>
+
+            {% if request.user != script.user and not already_rated %}
+            <!--Form for rating the script-->
+            <div class="form_for_rating">
+                {% if message %}
+                <div class="alert alert-danger" role="alert">
+                  {{ message }}
+                </div>
+                {% endif %}
+              <form action="{% url 'script' script.id %}" method="post">
+                {% csrf_token %}
+                <div class="ratings_container">
+
+                  <div class="ratings_child">
+                    <div class="post_rating_type">Rate Storyline</div>
+                    <div class="rate-1">
+                      <input type="radio" id="post_sl5" name="post_sl" value="5" />
+                      <label for="post_sl5" title="5 stars">5 stars</label>
+                      <input type="radio" id="post_sl4" name="post_sl" value="4" />
+                      <label for="post_sl4" title="4 stars">4 stars</label>
+                      <input type="radio" id="post_sl3" name="post_sl" value="3" />
+                      <label for="post_sl3" title="3 stars">3 stars</label>
+                      <input type="radio" id="post_sl2" name="post_sl" value="2" />
+                      <label for="post_sl2" title="2 stars">2 stars</label>
+                      <input type="radio" id="post_sl1" name="post_sl" value="1" />
+                      <label for="post_sl1" title="1 star">1 star</label>
+                    </div>
+                  </div>
+
+                  <div class="ratings_child">
+                    <div class="post_rating_type">Rate Characters</div>
+                    <div class="rate-2">
+                      <input type="radio" id="post_ch5" name="post_ch" value="5" />
+                      <label for="post_ch5" title="5 star">5 stars</label>
+                      <input type="radio" id="post_ch4" name="post_ch" value="4" />
+                      <label for="post_ch4" title="4 stars">4 stars</label>
+                      <input type="radio" id="post_ch3" name="post_ch" value="3" />
+                      <label for="post_ch3" title="3 stars">3 stars</label>
+                      <input type="radio" id="post_ch2" name="post_ch" value="2" />
+                      <label for="post_ch2" title="2 stars">2 stars</label>
+                      <input type="radio" id="post_ch1" name="post_ch" value="1" />
+                      <label for="post_ch1" title="1 star">1 star</label>
+                    </div>
+                  </div>
+
+                  <div class="ratings_child">
+                    <div class="post_rating_type">Rate Writing</div>
+                    <div class="rate-3" aria-describedby="asdf">
+                      <input type="radio" id="post_wr5" name="post_wr" value="5" />
+                      <label for="post_wr5" title="5 stars">5 stars</label>
+                      <input type="radio" id="post_wr4" name="post_wr" value="4" />
+                      <label for="post_wr4" title="4 stars">4 stars</label>
+                      <input type="radio" id="post_wr3" name="post_wr" value="3" />
+                      <label for="post_wr3" title="3 stars">3 stars</label>
+                      <input type="radio" id="post_wr2" name="post_wr" value="2" />
+                      <label for="post_wr2" title="2 stars">2 stars</label>
+                      <input type="radio" id="post_wr1" name="post_wr" value="1" />
+                      <label for="post_wr1" title="1 star">1 star</label>
+                    </div>
+                  </div>
+              </div>
+
+                <div style="margin: auto; text-align: center;">
+                  <input aria-describedby="post_ratingHelp" type="submit" name="post_rating" value="Rate" class="btn btn-sm btn-outline-danger">
+                  <div id="post_ratingHelp" class="form-text" style="text-align: left;">Rate separately:
+                    <ul>
+                      <li>Storyline: How did you like the overall storyline of this script(did it capture your imagination)?</li>
+                      <li>Characters: How did you like main and side characters, their history, life story and overall build?</li>
+                      <li>Writing: How did you like author's style of writing (was it always clear what the author wanted to say)?</li>
+                    </ul>
+                    <strong>You must submit all three ratings at the same time.</strong></div>
+                </div>
+              </form><br>
+            </div>
+            {% endif %}
+
+            {% if request.user != script.user and already_rated %}
+              <div style="margin: auto; text-align: center;">You have already rated this script.</div><br>
+            {% endif %}
+        </div>
+
+        <div>
+            <strong style="margin: 0 5px;">Suggestions and Comments:</strong><br>
+            <!--Displaying suggestions and comments and forms for submitting suggestions and comments.-->
+            <div class="cs_container">
+                <div class="cs_child" id="suggestions">
+                    <h6 style="text-align: center;">Suggestions:</h6>
+                    {% for suggestion in suggestions %}
+                        <div class="suggestion_div">
+                            <strong><a class="mp_script_text_link" href="{% url 'users' suggestion.user.username %}">{{ suggestion.user.name }}</a></strong> says:
+                            <p class="comment_p">{{ suggestion.suggestion }}</p>
+                            <small class="comment_date">{{ suggestion.created }}</small><br><br>
+                        </div>
+                    {% empty %}
+                        <div>
+                            No suggestions yet. 
+                            {% if request.user != script.user %}
+                                Be the first one to suggest some changes to author.
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    {% if request.user != script.user %}
+                    <br><form action="{% url 'script' script.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="id_suggestion" class="form-label">Suggestion:</label>
+                            {{ suggestion_form }}
+                            <div id="suggestionHelp" class="form-text"><strong>Remember</strong>: Suggestions are there to help authors. Only add a suggestion if you think a particular part of the script needs improving before publishing, otherwise use comments.</strong></div>
+                            <div style="text-align: right;"><input style="margin-top: 5px;" class="btn btn-sm btn-outline-danger" type="submit" name="post_suggest" value="Suggest"></div>
+                        </div>
+                   </form>
+                   {% endif %}
+                </div>
+    
+                <div class="cs_child" id="comments">
+                    <h6 style="text-align: center;">Comments:</h6>
+                    {% for comment in comments %}
+                        <div class="comment_div">
+                            <strong><a class="mp_script_text_link" href="{% url 'users' comment.user.username %}">{{ comment.user.name }}</a></strong> says:
+                            <p class="comment_p">{{ comment.comment }}</p>
+                            <small class="comment_date">{{ comment.created }}</small><br><br>
+                        </div>
+                    {% empty %}
+                        <div>
+                            No comments yet. 
+                            {% if request.user != script.user %}
+                                Be the first one to comment on this script.
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    {% if request.user != script.user %}
+                    <br><form action="{% url 'script' script.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="id_comment" class="form-label">Comment:</label>
+                            {{ comment_form }}
+                            <div id="commentHelp" class="form-text">Feel free to add your comment here, if you want to share with others what you think about this script, how you felt while you read it, etc.</strong></div>
+                            <div style="text-align: right;"><input style="margin-top: 5px;" class="btn btn-sm btn-outline-danger" type="submit" name="post_comment" value="Comment"></div>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div><br>
+            </div>
+        </div><br>
+
+        {% if script.user.bio %}
+        <div style="margin: 0 5px;">
+            <strong>About Author:</strong>
+            <p class="bio_about"> {{ script.user.bio }} </p>
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
+{% endblock %}

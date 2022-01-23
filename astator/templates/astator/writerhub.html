@@ -1,0 +1,19 @@
+{% extends 'astator/layout.html' %}
+
+{% block main %}
+<!--This part of writerHub is for displaying the search bar-->
+<br>
+<h1>WriterHub</h1>
+<div class="container">
+    <br><div class="writer_search">
+        <form class="form-inline">
+            <i id="search-icon" class="fas fa-search" aria-hidden="true"></i>
+            <input id="user-input" autocomplete="off" class="writer_search_bar" type="text" placeholder="Start typing to Search" aria-label="Search">
+        </form><br>
+    </div><hr><br>
+    <!--Content that will change depending on search results-->
+    <div id="replaceable-content" class="writer_view">
+        {% include 'astator/writerhub_search.html' %}
+    </div>
+</div>
+{% endblock %}

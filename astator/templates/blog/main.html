@@ -1,0 +1,32 @@
+{% extends 'astator/layout.html' %}
+
+{% block main %}
+    <br>
+    <!--Creating main page for our blogs-->
+    <h1>ASTATOR BLOG <span class="badge rounded-pill bg-secondary"> Demo</span></h1>
+    <br>
+    <div class="container">
+        <p class="blog_welcome">Welcome to Astator blog. This blog is for those looking to get into the publishing world. Every new start is tough, but with the right tools and help from the right places, this one doesn't have to be. Bellow you can read all about the world of publishing, and how you can best utilize some free resources out there, including Astator.</p><br><br>
+        <div class="blog_post">
+            <div class="blog_post_img"><img src="media/blog/blog_pic2.jpg" alt="book" class="img-thumbnail"></div>
+            <div class="blog_post_div">
+                <a class="blog_post_link" href="{% url 'blog_posts' 1 %}"><h4>Utilizing Astator - Best practices to gain readers for your work even before you publish it.</h4></a>
+                <div style="text-align: right"><small>Created: Dec 12 2021</small></div>
+            </div>
+        </div>
+        <div class="blog_post">
+            <div class="blog_post_img"><img src="media/blog/blog_pic1.jpg" alt="book" class="img-thumbnail"></div>
+            <div class="blog_post_div">
+                <a class="blog_post_link" href="{% url 'blog_posts' 2 %}"><h4>Self publishing vs Traditional Publishing - Which one is the best option for you?</h4></a>
+                <div style="text-align: right"><small>Created: Dec 16 2021</small></div>
+            </div>
+        </div>
+        <div class="blog_post">
+            <div class="blog_post_img"><img src="media/blog/blog_pic3.jpg" alt="book" class="img-thumbnail"></div>
+            <div class="blog_post_div">
+                <a class="blog_post_link" href="{% url 'blog_posts' 3 %}"><h4>24 best habbits for effective writing - Seize the day!</h4></a>
+                <div style="text-align: right"><small>Created: Dec 18 2021</small></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

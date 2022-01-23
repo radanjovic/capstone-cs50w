@@ -1,0 +1,55 @@
+{% extends 'astator/layout.html' %}
+
+{% block main %}
+    <br>
+    <!--Form for creating (adding) new scripts.-->
+    <div class="registration_form">
+        <h3 style="text-align: center;">Add A New Script</h3><br>
+        <form action="{% url 'create' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if message %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+            <div class="mb-3">
+                <label for="title" class="form-label">Title:</label>
+                {{ form.title }}
+                <div id="titleHelp" class="form-text">Enter Title of your script. 200 characters max.</div>
+            </div>
+            <div class="mb-3">
+                <label for="type" class="form-label">Type of Script:</label>
+                {{ form.script_type }}
+                <div id="typeHelp" class="form-text">Select type of your script. 
+                    <ul>
+                        <li>Concept - initial idea for a novel/screenplay with the overall plot and story characters. Select this option if you wish to find out if your future script is something that has the potential to captivate the attention of readers, before you actually start writing it.</li>
+                        <li>Short story - short script usually read in one sitting, with focus on telling a story of one self-contained, or a few linked, incidents. This option can be used for blog posts too, and also all the other writing that's short in nature.</li>
+                        <li>Draft - a (first or any other) draft of a novel, scrennplay or any other writing that's longer in nature.</li>
+                    </ul></div></div>
+                <div class="mb-3">
+                    <label for="category" class="form-label">Category:</label>
+                    {{ form.category }}
+                    <div id="categoryHelp" class="form-text">Select one of the offered categories that best describes your script. Other Astator users can use categories to browse for content they're interested in.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="summary" class="form-label">Summary:</label>
+                    {{ form.summary }}
+                    <div id="summaryHelp" class="form-text">Enter brief summary of your script. This summary should explain readers what your script is about: what story it tells and which characters it follows. Make sure that the summary allures the attention and ignites the imagination of readers.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="upload" class="form-label">Select Your Script:</label>
+                    {{ form.upload }}
+                    <div id="uploadHelp" class="form-text">Select your script. <strong>Astator accepts only Microsoft Word text files - .docx files!</strong></div>
+                </div>
+                <div class="mb-3">
+                    <label for="cover" class="form-label">Select Your Script Cover:</label>
+                    {{ form.cover }}
+                    <div id="coverHelp" class="form-text">Select a photo (jpg, png, ...) cover for your scipt(if you have one). This field is <strong>optional.</strong> If you don't have cover, one will be created automatically for you.</div>
+                </div>
+                <div class="registration_form_button">
+                    <button class="w-100 btn btn-lg btn-danger" type="submit">Submit</button>
+                </div>
+        </form>
+        </div>
+        <br>
+{% endblock %}

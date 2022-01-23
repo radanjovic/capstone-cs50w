@@ -1,0 +1,70 @@
+{% extends 'astator/layout.html' %}
+
+{% block main %}
+    <!--Allowing users to edit their data-->
+    <br><div class="registration_form">
+        <h3 style="text-align: center;">Edit Profile</h3><br>
+        <form action="{% url 'edit_profile' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if message %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+            <div class="mb-3">
+                <label for="email" class="form-label">Email Address:</label>
+                {{ form.email }}
+                <div id="emailHelp" class="form-text">If you wish to change your email address, type the new email address above.</div>
+            </div>
+            <div class="mb-3">
+                <label for="first_name" class="form-label">First Name:</label>
+                {{ form.first_name }}
+            </div>
+            <div class="mb-3">
+                <label for="last_name" class="form-label">Last Name:</label>
+                {{ form.last_name }}
+                <div id="nameHelp" class="form-text">If you wish to change your name, type your first and last name above. If you're using pen name, feel free to put your pen name instead of your first and last names.</div>
+            </div>
+            <div class="mb-3">
+                <label for="bio" class="form-label">Biography:</label>
+                {{ form.bio }}
+                <div id="bioHelp" class="form-text">Tell us and other users a little bit about yourself. This field is <strong>optional.</strong></div>
+            </div>
+            <div class="mb-3">
+                <label for="photo" class="form-label">Profile Photo:</label><br>
+                {{ form.photo }}
+                <div id="photoHelp" class="form-text">Choose an image (.jpg, .png, ...) file. This field is <strong>optional.</strong></div>
+            </div>
+            <div class="mb-3">
+                <label for="amazon" class="form-label">Amazon Author's Page:</label>
+                {{ form.amazon }}
+                <div id="amazonHelp" class="form-text">Enter URL for your Amazon Author's Page, if you have one. This field is <strong>optional.</strong></div>
+            </div>
+            <div class="mb-3">
+                <label for="twitter" class="form-label">Twitter:</label>
+                {{ form.twitter }}
+                <div id="twitterHelp" class="form-text">Enter URL for your Twitter account, if you have one. This field is <strong>optional.</strong></div>
+            </div>
+            <div class="mb-3">
+                <label for="facebook" class="form-label">Facebook:</label>
+                {{ form.facebook }}
+                <div id="facebookHelp" class="form-text">Enter URL for your Facebook account, if you have one. This field is <strong>optional.</strong></div>
+            </div>
+            <div class="mb-3">
+                <label for="instagram" class="form-label">Instagram:</label>
+                {{ form.instagram }}
+                <div id="instagramHelp" class="form-text">Enter URL for your Instagram account, if you have one. This field is <strong>optional.</strong></div>
+            </div>
+            <div class="mb-3">
+                <label for="youtube" class="form-label">YouTube:</label>
+                {{ form.youtube }}
+                <div id="youtubeHelp" class="form-text">Enter URL for your YouTube channel, if you have one. This field is <strong>optional.</strong></div>
+            </div><br>
+            <div class="registration_form_button">
+                <button class="w-100 btn btn-lg btn-danger" type="submit">Save Changes</button>
+            </div>
+            <hr class="my-4">
+            <small class="text-muted">Want to change your password? <a href="{% url 'change_password' %}">Click here.</a></small>
+        </form>
+    </div>
+{% endblock %}
